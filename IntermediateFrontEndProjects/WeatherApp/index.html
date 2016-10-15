@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Assign</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <script>
+
+        $(document).ready(function(){
+
+            $(".temp-group").click(function() {
+                $(".temp-group").each(function() {
+                    if($(this).hasClass("hidden")) {
+                        $(this).removeClass("hidden");
+                    } else {
+                        $(this).addClass("hidden");
+                    }
+                });
+            });
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        getWeather(position.coords.latitude,
+                                    position.coords.longitude);
+                });
+            }
+        });
+
+        function roundTemperature(temp) {
+            return Math.round(temp * 100) / 100;
+        }
+
+        function getWeather(lat, lon) {
+            callAPI(lat, lon, "metrics",
+                function (res) {
+                    $("#temperature-C").html(roundTemperature(res.main.temp-273.15));
+                    $("#city").html(res.name);
+                    $("#wind-speed").html(res.wind.speed);
+                    $("#conditions").html(res.weather[0].description);
+                    $("#weather-icon").prop("src",
+                        "http://openweathermap.org/img/w/"
+                            .concat(res.weather[0].icon)
+                            .concat(".png")
+                        );
+                });
+
+            callAPI(lat, lon, "imperial",
+                function (res) {
+                    $("#temperature-F").html(roundTemperature(res.main.temp));
+                });
+        }
+
+        function callAPI(lat, lon, units, callback) {
+            $.ajax({
+                url: "http://api.openweathermap.org/data/2.5/weather",
+                data: {
+                    APPID: 'f478c49f46f3185c3d1756206790809e',
+                    lat: lat,
+                    lon: lon,
+                    units: units,
+                },
+                cache: false,
+                method: "GET",
+                success: callback,
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container text-center">
+        <div class="page-header">
+            <h3>Free Weather App.</h3>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-offset-2 col-sm-8">
+                <div class="row">
+                    <div>
+                        <div class="col-xs-offset-3 col-xs-3">
+                            <img id="weather-icon" src="" alt="Your City's weather conditions"/>
+                        </div>
+                        <div id="temp-C-block" class="temp-group">
+                            <div class="col-xs-3">
+                                <span id="temperature-C">
+                                100
+                                </span>
+                                <sup>o</sup><span>C</span>
+                            </div>
+                        </div>
+
+                        <div id="temp-F-block" class= "temp-group hidden">
+                            <div class="col-xs-3">
+                                <span id="temperature-F">
+                                100
+                                </span>
+                                <sup>o</sup><span>F</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <br><br><br>
+
+                    <div>
+                        <div class="col-xs-4" id="city">Some City</div>
+                        <div class="col-xs-4" id="conditions">Some Conditions</div>
+                        <div class="col-xs-4">
+                            <span id="wind-speed">Some Wind Speed</span>
+                            <span>meter per second</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pomodoro</title>
+<link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+
+<body>
+    <div class="container">
+        <div class="background">   
+            <div id="title">Session</div>
+            <div id="timer">25</div>
+        </div>
+        <div class="header">Pomodoro Clock</div>
+        <div class="controls">
+            <div class="break">
+                <div class="header">BREAK LENGTH
+                </div>
+                <div class="symbols">
+                    <button value="-">-</button>
+                    <span id="break_val">5</span>
+                    <button value="+">+</button>
+                </div>
+            </div>
+            <div class="session">
+                <div class="header">SESSION LENGTH
+                </div>
+                <div class="symbols">
+                    <button value="-">-</button>
+                    <span id="session_val">25</span>
+                    <button value="+">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="clock" id="timer">
+            <div class="color-container">
+                <div class="upper"></div>
+                <div class="lower"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="function.js"></script>
+</body>
+</html>

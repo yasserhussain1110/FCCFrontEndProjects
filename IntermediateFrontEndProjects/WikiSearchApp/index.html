@@ -1,0 +1,156 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Wiki App</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        body {
+            background-color: #092B40;
+            color: white;
+            margin: 30px;
+        }
+
+        #search-box-container {
+            display: table;
+            width: 300px;
+            height: 300px;
+            text-align: center;
+        }
+
+        #search-box {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        #random a {
+            text-decoration: none;
+            color: white;
+        }
+
+        #result-list a {
+            text-decoration: none;
+            color: black;
+        }
+        
+        #result-list a li{
+            background-color: white;
+            list-style-type: none;
+        }
+    </style>
+
+
+
+
+    <script>
+        function queryWiki() {
+            var query = $("#query").val();
+            if (query === "") {
+                return;
+            }
+
+            $("#result-list").empty();
+            $("#error-block").addClass("hidden");
+
+            $.ajax ({
+                url: "https://en.wikipedia.org/w/api.php",
+                data: {
+                    action: "query",
+                    generator: "search",
+                    gsrnamespace: "0",
+                    gsrlimit: "10",
+                    prop: "pageimages|extracts",
+                    pilimit: "max",
+                    exintro: "",
+                    explaintext: "",
+                    exsentences: "1",
+                    exlimit: "max",
+                    gsrsearch: query,
+                    format: "json",
+                },
+                dataType: 'jsonp',
+                success: function (result) {
+                    showResults(result);
+                },
+            });
+        }
+
+        function showResults(result) {
+            if (!result.query) {
+                $("#error-block").removeClass("hidden");
+                return;
+            }
+
+            pages = result.query.pages;
+            var resultList = Object.keys(pages)
+                        .map(function (v) {
+                            return pages[v];
+                        })
+                        .sort(function (a, b) {
+                            return a.index - b.index;
+                        });
+
+            resultList.forEach(function(eachRes) {
+                var resultBlock = $("#prototype").clone();
+                resultBlock.find("h2").html(eachRes.title);
+                resultBlock.find("p").html(eachRes.extract);
+                resultBlock.prop("href", "https://en.wikipedia.org/?curid=" + eachRes.pageid);
+                $("#result-list").append(resultBlock);
+            });
+        }
+    </script>
+
+</head>
+
+<body> 
+    <section id="search">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-offset-4 col-sm-4">
+                    <div id="search-box-container">
+                        <div id = "search-box">
+                            <div id="random">
+                                <a target="_blank" href="http://en.wikipedia.org/wiki/Special:Random">Click here for a random article</a>
+                            </div>
+                            <div><br/></div>
+                            <div id="search">
+                                <form class="form-inline" role="form">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" id="query">
+                                    </div>
+                                    <button type="submit" onclick="queryWiki(); return false;" class="btn btn-success">Search</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row hidden" id="error-block">
+                <div class="col-sm-offset-4 col-sm-4">
+                    <div class="alert alert-danger">
+                        Sorry Couldn't Find Anything!!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="search-result">
+        <div class="container text-center">
+            <ul id="result-list"></ul>
+        </div>
+
+        <div class="hidden">
+            <a href="#" target="_blank" id="prototype">
+                <li><h2></h2><p></p></li>
+            </a>
+        </div>
+    </section>
+</body>
+</html>

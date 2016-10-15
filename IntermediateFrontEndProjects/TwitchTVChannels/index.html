@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Twitch TV API</title>
+
+    <link type="text/css" rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oswald:400,700|Droid+Serif:400,400italic">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+    <style type="text/css">
+        body {
+            background-color: #ecf0e7;
+            font-family: 'Droid Serif', serif;
+            font-size: 14px;
+            color: #8ea7c2;
+        }
+
+        a, a:focus, a:hover, a:visited {
+            color: #b8cca6;
+        }
+
+        .container {
+            background-color: #e1e1e6;
+            margin: 0px auto;
+            padding: 0px;
+            max-width: 700px;
+        }
+
+        h1 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: bold;
+            text-transform: uppercase;
+            text-align: left;
+            margin: 15px 0px;
+            font-size: 3em;
+        }
+
+        .logo {
+            border-radius: 50%;
+            border: 3px solid #e1e1e6;
+            max-width: 50px;
+            max-height: 50px;
+        }
+
+        .row {
+            margin: 2px 0px;
+            padding: 5px;
+            line-height: 50px;
+        }
+
+        #header {
+            position: relative;
+            background-color: #5c5457;
+            color: #e1e1e6;
+            padding: 5px 65px 5px 15px;
+        }
+
+        .name a {
+            color: #4a5e82;
+        }
+
+        .description {
+            color: #5c5457;
+            font-style: italic;
+        }
+
+        .online {
+            background-color: #b8cca6;
+        }
+
+        .offline {
+            background-color: #4a5e82;
+        }
+
+        .offline a {
+            color: #a8ba91;
+        }
+
+        .offline .description {
+            color: #8e9fbe;
+        }
+
+        .filter {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        .filter label {
+            display: inline-block;
+            margin-left: 5px;
+            margin-right: 5px;
+        }
+
+    </style>
+
+
+    <script>
+
+    $(document).ready(function() {
+
+        var channels = ["esl_sc2", "ogamingsc2", "storbeck", "habathcx", "thomasballinger", "freecodecamp", "terakilobyte", "beohoff", "robotcaleb", "noobs2ninjas", "comster404", "brunofin", "test_channel", "cretetion", "sheevergaming", "tr7k"];
+
+        //var channels = ["esl_sc2"];
+
+        channels.forEach(function(channel) {
+            $.ajax ({
+                url: "https://api.twitch.tv/kraken/streams/"+channel,
+                header: {
+                    Accept: "application/vnd.twitchtv.v3+json"
+                },
+                dataType: 'jsonp',
+                success: function (result) {
+                    var channelStatus; //online, offline, accountClosed
+                    if (result.error) {
+                        channelStatus = "accountClosed";
+                    } else if (result.stream) {
+                        channelStatus = "online";
+                    } else {
+                        channelStatus = "offline";
+                    }
+                    showChannelStatus(channel, channelStatus);
+                },
+            });
+        });
+    });
+
+    function getChannelInfo(channel, callBack) {
+        $.ajax ({
+            url: "https://api.twitch.tv/kraken/channels/"+channel,
+            header: {
+                Accept: "application/vnd.twitchtv.v3+json"
+            },
+            dataType: 'jsonp',
+            success: function (result) {
+                callBack(result);
+            },
+        });
+    }
+
+    function truncate(str, num) {
+        if (num >= str.length) return str;
+        var cut = str.substring(0,num);
+        if (num > 3) {
+            return cut.replace(/...$/,"...");
+        } else {
+            return cut+"...";
+        }
+    }
+
+    function showChannelStatus(channel, channelStatus){
+
+        if (channelStatus === "accountClosed") {
+            var closedNode = $("#prototype").clone().removeClass("hidden").addClass("offline").removeAttr("id");
+            closedNode.find("img").prop("src", "http://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F");
+            closedNode.find(".name").find("a").html(channel);
+            closedNode.find(".name").find("a").prop("href", "undefined");
+            closedNode.find(".description").html("Account Closed");
+            $("#demarcationClosed").before(closedNode);
+            return;
+        }
+
+        var commonCallBack = function (result) {
+            var resultNode = $("#prototype").clone().removeClass("hidden").removeAttr("id");
+            if (result.logo) {
+                    resultNode.find("img").prop("src", result.logo);
+            }
+            resultNode.find(".name").find("a").html(result.display_name);
+            resultNode.find(".name").find("a").prop("href", result.url);
+            return resultNode;
+        }
+
+        var callBack;
+        if (channelStatus === "online") {
+            callBack = function (result) {
+                var onlineNode = commonCallBack(result);
+                onlineNode.addClass("online");
+                onlineNode.find(".description").find(".game").html(result.game);
+                onlineNode.find(".description").find(".status").html(truncate(result.status, 50));
+                $("#demarcationOnline").before(onlineNode);
+            };
+        } else if (channelStatus === "offline") {
+            callBack = function (result) {
+                var offlineNode = commonCallBack(result);
+                offlineNode.addClass("offline");
+                offlineNode.find(".description").html("Offline");
+                $("#demarcationOffline").before(offlineNode);
+            };
+        }
+
+        getChannelInfo(channel, callBack);
+    }
+
+    function showSelected() {
+        var selection = $('input[type=radio]:checked', '#selectionGroup').val();
+        switch(selection) {
+            case "all":
+                $(".online").removeClass("hidden");
+                $(".offline").removeClass("hidden");
+                break;
+            case "online":
+                $(".online").removeClass("hidden");
+                $(".offline").removeClass("hidden");
+                $(".offline").addClass("hidden");
+                break;
+            case "offline":
+                $(".online").removeClass("hidden");
+                $(".offline").removeClass("hidden");
+                $(".online").addClass("hidden");
+                break;
+        }
+    }
+
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="row" id="header">
+            <h1>Twitch Streamers</h1>
+            <div id="selectionGroup">
+                <div class="filter">
+                    <input type="radio" id="all" value="all" name="selection" onclick="showSelected();"/>
+                    <label for="all">All</label>
+                </div>
+                <div class="filter">
+                    <input type="radio" id="online" value="online" name="selection" onclick="showSelected();"/>
+                    <label for="online">Online</label>
+                </div>
+                <div class="filter">
+                    <input type="radio" id="offline" value="offline" name="selection" onclick="showSelected();"/>
+                    <label for="offline">Offline</label>
+                </div>
+            </div>
+        </div>
+
+        <div id="display">
+            <div class="hidden" id="demarcationOnline"></div>
+            <div class="hidden" id="demarcationOffline"></div>
+            <div class="hidden" id="demarcationClosed"></div>
+        </div>
+    </div>
+
+
+    <div class="text-center row hidden" id="prototype">
+        <div class="col-xs-2 col-sm-2"><img src="http://dummyimage.com/50x50/ecf0e7/5c5457.jpg&text=0x3F" class="logo"></div>
+        <div class="col-xs-10 col-sm-2 name"><a href="" target="_blank"></a></div>
+        <div class="col-xs-10 col-sm-8 description"><span class="game"></span> <span class="hidden-xs status"></span></div>
+    </div>
+</body>
+</html>

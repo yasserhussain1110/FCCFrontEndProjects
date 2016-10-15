@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tic Tac Toe</title>
+  <link rel="stylesheet" type="text/css" href="style.css"/>
+  <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" type="text/css">
+</head>
+
+
+<body>
+  <div id="notification-bar" class="notification-container">
+    <div class="notification" id="your-turn">Your Turn!</div>
+    <div class="notification" id="computer-turn">Computer Turn!</div>
+    <div class="notification" id="player1">Go Player1</div>
+    <div class="notification" id="player2">Go Player2</div>
+  </div>
+  <div class="container">
+    <div id="score" class="top-bar">
+      <div class="score">
+        <div id="score1">O</div>
+        <div>player I</div>
+      </div>
+      
+      <div class="score">
+        <div id="score2">O</div>
+        <div>player II</div>
+      </div>
+
+      <div class="score reset">
+        Reset All
+      </div>
+    </div>
+    <div id="screen1" class="game">
+      <div class="label">
+        <label> How do you want to play? </label>
+      </div>
+
+      <div class="option-container">
+        <div class="option">
+          One Player
+        </div>
+        <div class="option">
+          Two Player
+        </div>
+      </div>
+    </div>
+
+    <div id="screen2" class="game page2">
+      <div class="label">
+        <label> Would you like to be X or O? </label>
+      </div>
+
+      <div class="option-container">
+        <div class="option">
+          X
+        </div>
+        <div class="option">
+          O
+        </div>
+      </div>
+
+      <div class="back">
+        <i class="fa fa-arrow-left"></i>
+        Back
+      </div>
+    </div>
+
+    <div id="screen3" class="game page3">
+      <div class="grid-container">
+        <div class="grid">
+          <span class="tic">&nbsp;</span>
+        </div>
+        
+
+        <div class="grid">
+          <span class="tic">&nbsp;</span>
+        </div>
+
+        <div class="grid">
+          <span class="tic">&nbsp;</span>
+        </div>
+
+
+        <div class="grid">
+          <span class="tic">&nbsp;</span>
+        </div>
+
+        <div class="grid">
+          <span class="tic">&nbsp;</span>
+        </div>
+
+        <div class="grid">
+          <span class="tic">&nbsp;</span>
+        </div>
+
+        <div class="grid">
+          <span class="tic">&nbsp;</span>
+        </div>
+
+        <div class="grid">
+          <span class="tic">&nbsp;</span>
+        </div>
+
+        <div class="grid">
+          <span class="tic">&nbsp;</span>
+        </div>
+
+        
+      </div>
+
+      <div id="result"></div>
+    </div>
+
+
+  </div>
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="game.js"></script>
+  <script type="text/javascript" src="scripts.js"></script>
+</body>
+</html>

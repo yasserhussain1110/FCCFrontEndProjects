@@ -1,0 +1,122 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    background-color: gray;
+    font-family: Orbitron;
+    font-style: normal;
+    font-variant: normal;
+    line-height: 26.4px;
+}
+
+.calculator {
+    width: 280px;
+    text-align: center;
+    margin: 50px auto;
+    background-color: #DFD8D0;
+    border-width: 3px;
+    border-style: double;
+    border-color: black;
+    border-radius: 25px;
+}
+
+.label {
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 10px;
+}
+
+.screen {
+    margin: 10px 15px;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #B4B39D;
+    border-radius: 10px;
+    background-color: #C3C2AB;
+    text-align: right;
+    padding-top: 10px;
+    padding-right: 7px;
+}
+
+button {
+  outline: none;
+}
+
+button::-moz-focus-inner {
+  border: 0;
+}
+
+.input {
+    font-size: 35px;
+    color: #333333;
+}
+
+.result {
+    margin-top: 5px;
+    color: #95908A;
+    padding-right: 3px;
+}
+
+.keys-container {
+    display: inline-block;
+    padding-left: 6px;
+}
+
+.key {
+    float: left;
+    background-color: #393939;
+    width: 50px;
+    height: 45px;
+    border-radius: 10px;
+    margin: 4px 8px;
+    box-shadow: 0px 3px #222121;
+}
+
+.key:active {
+    transform: translate(0px, 3px);
+    box-shadow: none;
+}
+
+.key:hover {
+    cursor: pointer;
+}
+
+.key button {
+    padding-top: 13px;
+    background-color: inherit;
+    border : none;
+    font-family: inherit;
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.key button:hover {
+    cursor: pointer;
+}
+
+.red {
+    background-color: #A72D45;
+    box-shadow: 0px 3px #671c2a;
+}
+
+.equal {
+    height: 100px;
+    float: left;
+}
+
+.equal button {
+    padding-top: 40px;
+    padding-bottom: auto;
+}
+
+.zero {
+    clear: left;
+    width: 116px;
+}
+
+.special {
+    float: left;
+}

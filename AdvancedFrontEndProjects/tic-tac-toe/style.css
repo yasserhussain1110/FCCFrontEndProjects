@@ -1,0 +1,235 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+.notification-container {
+  text-align: center;
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0px;
+  background: white;
+  width: 400px;
+}
+
+.score{
+  margin: 2px 15px;
+  display: inline-block;
+}
+.reset {
+  padding: 0px 10px;
+}
+
+.reset:hover {
+  border: 2px dashed gray;
+  border-radius: 20px;
+  margin: 0px 13px;
+  cursor: pointer;
+}
+
+.notification {
+  color: white;
+  text-align: center;
+  
+  height: 35px;
+  font-size: 1.2rem;
+  padding: 10px 10px 2px 10px;
+  display: inline;
+}
+
+#your-turn {
+  padding-left: 30px;
+  padding-right: 30px;
+  background: #00C8C8;
+}
+
+#computer-turn {
+  padding-left: 15px;
+  background: red;
+}
+
+#player1 {
+  padding-right: 35px;
+  padding-left: 35px;
+  background: #00C8C8;
+}
+
+#player2 {
+  padding-left: 35px;
+  padding-right: 35px;
+  background: red;
+}
+
+.container {
+  text-align: center;
+  background-color: #F0B487;
+  width: 400px;
+  margin: 0px auto;
+  overflow: auto;
+  border-radius: 10px;
+  box-shadow: 0px 10px 15px #323232;
+  font-style: normal;
+  font-family: "Architects Daughter", "Helvetica", "sans-serif";
+}
+
+.game {
+  margin: 15px 25px 35px 25px;
+  height: 350px;
+  background-image: radial-gradient(60% 100% at 50% 60%, #264D3A, #101D1C);
+}
+
+.label {
+  font-size: 2.0rem;
+  color: white;
+  padding-left: 50px; 
+  padding-right: 50px;
+  padding-top: 65px;
+  padding-bottom: 30px;
+}
+
+.option {
+  display: inline-block;
+  color: #89938F;
+  font-size: 1.65rem;
+  padding: 2px 8px;
+}
+
+.option:hover {
+  border: 2px dashed gray;
+  border-radius: 20px;
+  padding: 0px 6px;
+  color: white;
+  cursor: pointer;
+}
+
+.page2 *{
+  font-size: 2.2rem;
+}
+
+.page2 .label{
+  padding-left: 30px; 
+  padding-right: 30px;
+  padding-top: 65px;
+  padding-bottom: 20px;
+  color: #DCDCDC;
+}
+
+.page2 .option {
+  font-size: 2.6rem;
+  margin-bottom: 30px;
+}
+
+.back {
+  font-size: 1.6rem;
+  color: #89938F;
+}
+
+
+.back:hover {
+  cursor: pointer;
+  color: white;
+}
+
+.page3 .grid-container {
+  padding-top: 10px;
+}
+
+.page3 .grid {
+  height: 100px;
+  width: 100px;
+  border: 2px solid white;
+  display: inline-block;
+  padding: 0px;
+  margin: 0px;
+}
+
+
+.grid:nth-of-type(1) {
+  border-top: none;
+  border-left: none;
+}
+
+
+.grid:nth-of-type(2) {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+
+.grid:nth-of-type(3) {
+  border-top: none;
+  border-right: none;
+}
+
+
+.grid:nth-of-type(4) {
+  border-top: none;
+  border-left: none;
+  border-bottom: none;
+}
+
+.grid:nth-of-type(5) {
+  border: none;
+}
+
+.grid:nth-of-type(6) {
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+}
+
+.grid:nth-of-type(7) {
+  border-bottom: none;
+  border-left: none;
+}
+
+
+.grid:nth-of-type(8) {
+  border-right: none;
+  border-left: none;
+  border-bottom: none;
+}
+
+
+.grid:nth-of-type(9) {
+  border-bottom: none;
+  border-right: none;
+}
+
+.grid .tic {
+  color: #A5B0AB;
+  font-size: 5.0rem;
+}
+
+#screen1, #screen2, #screen3 {
+  display: none;
+}
+
+#score {
+  visibility: hidden;
+}
+
+#notification-bar {
+  visibility: hidden;
+}
+
+#notification-bar *{
+  visibility: hidden;
+}
+
+#notification-bar div[id^=player] {
+  display: none;
+}
+
+#result {
+  position: relative;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  display: none;
+  color: black;
+  font-size: 1.5rem;
+}
